@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+    crossorigin="anonymous" />
+  <title>Signup</title>
+  <style>
+    :root {
+            --primary-navy: #1a237e;
+            --secondary-navy: #0d1b69;
+            --primary-yellow: #ffd700;
+            --secondary-yellow: #ffed4e;
+            --accent-yellow: #fff176;
+            --dark-navy: #0a0e3d;
+            --light-navy: #3949ab;
+            --text-dark: #2c3e50;
+            --text-light: #ffffff;
+            --bg-light: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        
+
+    body {
+  font-family: 'Raleway', sans-serif;
+  line-height: 1.6;
+  color: var(--text-dark);
+  background-color: var(--bg-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.registeration-box {
+  width: 100%;
+  max-width: 600px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form {
+  border: 1px solid blue;
+  width: 100%;
+  padding: 25px;
+  border-radius: 10px;
+  background-color: white;
+}
+
+/* Navigation Styles */
+        .navbar-custom {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--secondary-navy) 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 3px solid var(--primary-yellow);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(26, 35, 126, 0.3);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--text-light) !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand span {
+            color: var(--primary-yellow);
+        }
+
+        .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 500;
+            margin: 0 15px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-yellow) !important;
+            transform: translateY(-2px);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: var(--primary-yellow);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="./index.php">ATLAS<span>ESCAPES</span></a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <i class="fas fa-bars text-white"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#home">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#a-propos">About </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#destinations">Destinations</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#Photos">Album</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./login.php">Login</a>
+          </li>
+        </ul>
+
+        <div class="d-flex flex-wrap">
+          <a href="reservation.php" class="btn btn-reservation text-white">Book</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="registeration-box">
+    
+    <h1 class="signup-title">Sign Up Please</h1>
+    <hr>
+    <form action="includes/signup.inc.php" method="post" class="row g-3">
+      <div class="col-md-6">
+        <label for="inputAddress2" class="form-label">Full Name</label>
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          required="required"
+          placeholder="Full Name..." />
+      </div>
+      <div class="col-md-6">
+        <label for="inputAddress" class="form-label">Number</label>
+        <input
+          type="number"
+          class="form-control"
+          name="number"
+          required="required"
+          placeholder="+92 123 456 789 1" />
+      </div>
+      <div class="col-md-6">
+        <label for="inputEmail4" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          placeholder="Email"
+          required="required" />
+      </div>
+      <div class="col-md-6">
+        <label for="inputAddress" class="form-label">Address</label>
+        <input
+          type="text"
+          class="form-control"
+          name="address"
+          required="required"
+          placeholder="1234 Main St" />
+      </div>
+
+      <div class="col-md-6">
+        <label for="inputPassword4" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          name="pwd"
+          placeholder="password"
+          required="required" />
+      </div>
+      <div class="col-md-6">
+        <label for="inputPassword4" class="form-label">Confirm Password</label>
+        <input
+          type="password"
+          class="form-control"
+          name="rpwd"
+          placeholder="Confirm Password"
+          required="required" />
+      </div>
+
+      <div class="col-12">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          name="submit">Register</button>
+      </div>
+    </form>
+  </div>
+
+
+  <!-- Script Tags -->
+  <script src="./js/jquery.js" type="text/javascript"></script>
+  <script src="./js/bootstrap.min.js" type="text/javascript"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas Escapes - Réservation</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        #successMessage {
+            display: none;
+            margin-top: 15px;
+            color: green;
+            font-weight: bold;
+        }
+
+        :root {
+            --primary-navy: #1a237e;
+            --secondary-navy: #0d1b69;
+            --primary-yellow: #ffd700;
+            --secondary-yellow: #ffed4e;
+            --accent-yellow: #fff176;
+            --dark-navy: #0a0e3d;
+            --light-navy: #3949ab;
+            --text-dark: #2c3e50;
+            --text-light: #ffffff;
+            --bg-light: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            background: var(--bg-light);
+        }
+
+        /* Navigation Styles */
+        .navbar-custom {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--secondary-navy) 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 3px solid var(--primary-yellow);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(26, 35, 126, 0.3);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--text-light) !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand span {
+            color: var(--primary-yellow);
+        }
+
+        .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 500;
+            margin: 0 15px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-yellow) !important;
+            transform: translateY(-2px);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: var(--primary-yellow);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .btn-auth {
+            border: 2px solid var(--primary-yellow);
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+        }
+
+        .btn-login {
+            background: transparent;
+            color: var(--primary-yellow) !important;
+        }
+
+        .btn-login:hover {
+            background: var(--primary-yellow);
+            color: var(--primary-navy) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-register {
+            background: var(--primary-yellow);
+            color: var(--primary-navy) !important;
+        }
+
+        .btn-register:hover {
+            background: var(--secondary-yellow);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 120px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 50%, var(--bg-light) 100%);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title {
+            color: var(--primary-navy);
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-subtitle {
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+
+        /* Reservation Form */
+        .reservation-form {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reservation-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-yellow), var(--secondary-yellow), var(--primary-yellow));
+        }
+
+        .form-title {
+            color: var(--primary-navy);
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .form-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(45deg, var(--primary-yellow), var(--secondary-yellow));
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .form-label {
+            color: var(--primary-navy);
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .form-control,
+        .form-select {
+            border: 2px solid rgba(26, 35, 126, 0.15);
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary-yellow);
+            box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25);
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 20px;
+            top: 50px;
+            color: var(--primary-navy);
+            opacity: 0.6;
+            z-index: 2;
+        }
+
+        .form-group.has-icon .form-control,
+        .form-group.has-icon .form-select {
+            padding-left: 50px;
+        }
+
+        .btn-submit {
+            background: linear-gradient(45deg, var(--primary-navy), var(--light-navy));
+            border: none;
+            border-radius: 25px;
+            padding: 18px 50px;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(26, 35, 126, 0.4);
+            background: linear-gradient(45deg, var(--light-navy), var(--primary-navy));
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        /* Info Cards */
+        .info-cards {
+            margin-top: 60px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(26, 35, 126, 0.05));
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card i {
+            font-size: 2.5rem;
+            color: var(--primary-navy);
+            margin-bottom: 20px;
+        }
+
+        .info-card h5 {
+            color: var(--primary-navy);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .info-card p {
+            color: var(--text-dark);
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* Destinations highlight */
+        .destinations-preview {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--secondary-navy) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 50px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .destinations-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffd700" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffd700" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/></svg>');
+        }
+
+        .destinations-preview h4 {
+            color: var(--primary-yellow);
+            font-weight: 700;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .destination-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .destination-tag {
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid var(--primary-yellow);
+            border-radius: 25px;
+            padding: 8px 20px;
+            color: var(--primary-yellow);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .destination-tag:hover {
+            background: var(--primary-yellow);
+            color: var(--primary-navy);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-navy);
+            padding: 30px 0;
+            text-align: center;
+            color: var(--text-light);
+            margin-top: 80px;
+        }
+
+        .footer span {
+            color: var(--primary-yellow);
+            font-weight: 600;
+        }
+
+        /* Animations */
+        .animate-fade-in {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Success message */
+        .success-message {
+            background: linear-gradient(45deg, #4caf50, #66bb6a);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+            animation: slideInFromTop 0.5s ease-out;
+        }
+
+        @keyframes slideInFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .reservation-form {
+                padding: 30px 20px;
+                margin: 0 15px;
+            }
+
+            .form-title {
+                font-size: 1.6rem;
+            }
+
+            .btn-auth {
+                margin: 5px 0;
+                width: 100%;
+            }
+
+            .destination-tags {
+                justify-content: center;
+            }
+        }
+
+        /* Loading animation */
+        .btn-submit.loading {
+            pointer-events: none;
+        }
+
+        .btn-submit.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<script>
+    document.getElementById('reservationForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Empêche le rechargement
+
+        const formData = new FormData(this);
+
+        fetch('send_reservation.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('successMessage').style.display = 'block';
+                    document.getElementById('reservationForm').reset();
+                } else {
+                    alert("Une erreur s'est produite.");
+                }
+            })
+            .catch(error => {
+                console.error("Erreur :", error);
+            });
+    });
+</script>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">ATLAS<span>ESCAPES</span></a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php#a-propos">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php#destinations">Destinations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header animate-fade-in">
+                <h1 class="page-title">
+                    <i class="fas fa-plane-departure me-3"></i>
+                    Book Your Trip
+                </h1>
+                <p class="page-subtitle">
+                    Plan your next adventure with Atlas Escapes – Extraordinary destinations await you
+                </p>
+            </div>
+
+            <div class="row">
+                <!-- Reservation Form -->
+                <div class="col-lg-8 mx-auto">
+                    <div class="reservation-form animate-fade-in">
+                        <h3 class="form-title">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            Reservation Form
+                        </h3>
+
+                        <form id="reservationForm" action="send_reservation.php" method="POST">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group has-icon">
+                                        <label class="form-label">
+                                            <i class="fas fa-map-marker-alt me-2"></i>Destination *
+                                        </label>
+                                        <i class="fas fa-globe"></i>
+                                        <select class="form-select" name="destination" required>
+                                            <option value="">Choose your destination</option>
+                                            <option value="taghazout">Taghazout – Surf Paradise</option>
+                                            <option value="toubkal">Toubkal – Atlas Peak</option>
+                                            <option value="monte-blanco">Monte Blanco – Alpine Adventure</option>
+                                            <option value="ouzoud">Ouzoud – Majestic Waterfalls</option>
+                                            <option value="chefchaouen">Chefchaouen – Blue Pearl</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group has-icon">
+                                        <label class="form-label">
+                                            <i class="fas fa-users me-2"></i>Number of People *
+                                        </label>
+                                        <i class="fas fa-users"></i>
+                                        <select class="form-select" name="nombre_personnes" required>
+                                            <option value="">Number of travelers</option>
+                                            <option value="1">1 Person</option>
+                                            <option value="2">2 People</option>
+                                            <option value="3">3 People</option>
+                                            <option value="4">4 People</option>
+                                            <option value="5">5 People</option>
+                                            <option value="6">6 People</option>
+                                            <option value="7">7 People</option>
+                                            <option value="8">8 People</option>
+                                            <option value="9">9 People</option>
+                                            <option value="10+">10+ People</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group has-icon">
+                                        <label class="form-label">
+                                            <i class="fas fa-calendar me-2"></i>Departure Date *
+                                        </label>
+                                        <i class="fas fa-calendar"></i>
+                                        <input type="date" class="form-control" name="date_depart" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group has-icon">
+                                        <label class="form-label">
+                                            <i class="fas fa-envelope me-2"></i>Email *
+                                        </label>
+                                        <i class="fas fa-envelope"></i>
+                                        <input type="email" class="form-control" name="email" placeholder="your@email.com" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group has-icon">
+                                        <label class="form-label">
+                                            <i class="fas fa-phone me-2"></i>Phone Number *
+                                        </label>
+                                        <i class="fas fa-phone"></i>
+                                        <input type="tel" class="form-control" name="telephone" placeholder="+212 6XX XXX XXX" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-comment me-2"></i>Additional Information
+                                </label>
+                                <textarea class="form-control" name="informations" rows="4" placeholder="Share your preferences, special needs, or questions..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-submit">
+                                <i class="fas fa-paper-plane me-2"></i>
+                                Confirm Booking
+                            </button>
+
+                            <div class="success-message" id="successMessage">
+                                <i class="fas fa-check-circle me-2"></i>
+                                Your booking was successfully sent! Our team will contact you soon.
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            
+
+            <!-- Info Cards -->
+                   <!-- Info Cards -->
+        <div class="info-cards">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="info-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h5>Guaranteed Safety</h5>
+                        <p>Travel with peace of mind thanks to our expert guides and strict safety measures.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-card">
+                        <i class="fas fa-clock"></i>
+                        <h5>Quick Response</h5>
+                        <p>Our team will contact you as soon as possible to confirm your booking.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-card">
+                        <i class="fas fa-heart"></i>
+                        <h5>Unique Experience</h5>
+                        <p>Discover extraordinary places with personalized and authentic experiences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white py-4">
+        <div class="container text-center">
+            <p class="mb-2">Follow us on social media</p>
+            <div class="social-icons mb-3">
+                <a href="https://www.facebook.com" target="_blank" class="text-white me-3">
+                    <i class="fab fa-facebook fa-lg"></i>
+                </a>
+                <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
+                    <i class="fab fa-instagram fa-lg"></i>
+                </a>
+                <a href="https://www.twitter.com" target="_blank" class="text-white me-3">
+                    <i class="fab fa-twitter fa-lg"></i>
+                </a>
+                <a href="https://www.youtube.com" target="_blank" class="text-white">
+                    <i class="fab fa-youtube fa-lg"></i>
+                </a>
+            </div>
+            <p class="mb-0">Created by <span class="text-warning">Atlas Escapes Dev</span> | All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Form submission handling
+        document.getElementById('reservationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form data
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            // Validate required fields
+            const requiredFields = ['destination', 'nombre_personnes', 'date_depart', 'email', 'telephone'];
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                const input = this.querySelector(`[name="${field}"]`);
+                if (!data[field] || data[field].trim() === '') {
+                    input.style.borderColor = '#e74c3c';
+                    isValid = false;
+                } else {
+                    input.style.borderColor = '';
+                }
+            });
+
+            if (!isValid) {
+                alert('Veuillez remplir tous les champs obligatoires.');
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(data.email)) {
+                alert('Veuillez entrer une adresse email valide.');
+                return;
+            }
+
+            // Date validation (must be in the future)
+            const selectedDate = new Date(data.date_depart);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            if (selectedDate <= today) {
+                alert('La date de départ doit être dans le futur.');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = this.querySelector('.btn-submit');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.classList.add('loading');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Envoi en cours...';
+
+            // Simulate form submission
+            setTimeout(() => {
+                // Show success message
+                document.getElementById('successMessage').style.display = 'block';
+
+                // Reset form
+                this.reset();
+
+                // Reset button
+                submitBtn.classList.remove('loading');
+                submitBtn.innerHTML = originalText;
+
+                // Scroll to success message
+                document.getElementById('successMessage').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 5000);
+
+            }, 2000);
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(26, 35, 126, 0.95)';
+                navbar.style.backdropFilter = 'blur(15px)';
+                navbar.style.boxShadow = '0 8px 32px rgba(26, 35, 126, 0.4)';
+            } else {
+                navbar.style.background = 'linear-gradient(135deg, #1a237e 0%, #0d1b69 100%)';
+                navbar.style.backdropFilter = 'blur(10px)';
+                navbar.style.boxShadow = '0 4px 20px rgba(26, 35, 126, 0.3)';
+            }
+        });
+
+        // Form field focus effects
+        document.querySelectorAll('.form-control, .form-select').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+                this.style.transform = 'translateY(-2px)';
+            });
+
+            input.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.parentElement.classList.remove('focused');
+                }
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Destination tags hover effects
+        document.querySelectorAll('.destination-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                const destination = this.textContent.trim().split(' ')[0].toLowerCase();
+                const select = document.querySelector('select[name="destination"]');
+
+                // Find matching option
+                for (let option of select.options) {
+                    if (option.value.includes(destination)) {
+                        select.value = option.value;
+                        select.style.borderColor = '#ffd700';
+                        select.focus();
+                        break;
+                    }
+                }
+            });
+        });
+
+        // Auto-resize textarea
+        document.querySelector('textarea[name="informations"]').addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = this.scrollHeight +

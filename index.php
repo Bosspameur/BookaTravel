@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas Escapes - Voyagez en Sécurité</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .alert {
+            animation: fadeInDown 0.8s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        :root {
+            --primary-navy: #1a237e;
+            --secondary-navy: #0d1b69;
+            --primary-yellow: #ffd700;
+            --secondary-yellow: #ffed4e;
+            --accent-yellow: #fff176;
+            --dark-navy: #0a0e3d;
+            --light-navy: #3949ab;
+            --text-dark: #2c3e50;
+            --text-light: #ffffff;
+            --bg-light: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navigation Styles */
+        .navbar-custom {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--secondary-navy) 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 3px solid var(--primary-yellow);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(26, 35, 126, 0.3);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--text-light) !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand span {
+            color: var(--primary-yellow);
+        }
+
+        .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 500;
+            margin: 0 15px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-yellow) !important;
+            transform: translateY(-2px);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: var(--primary-yellow);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .btn-auth {
+            border: 2px solid var(--primary-yellow);
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+        }
+
+        .btn-login {
+            background: transparent;
+            color: var(--primary-yellow) !important;
+        }
+
+        .btn-login:hover {
+            background: var(--primary-yellow);
+            color: var(--primary-navy) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-register {
+            background: var(--primary-yellow);
+            color: var(--primary-navy) !important;
+        }
+
+        .btn-register:hover {
+            background: var(--secondary-yellow);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-reservation {
+            background: linear-gradient(45deg, var(--primary-yellow), var(--secondary-yellow));
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            color: var(--primary-navy) !important;
+            transition: all 0.3s ease;
+        }
+
+        .btn-reservation:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            /* ← AJOUT ESSENTIEL */
+            background-image: url('https://sumptuous-events.com/wp-content/uploads/2016/07/marrakech-wedding-planner.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(11, 31, 58, 0.8);
+            background-blend-mode: overlay;
+            color: white;
+            padding: 200px 0;
+            overflow: hidden;
+            /* ← pour éviter les débordements */
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffd700" stop-opacity="0.05"/><stop offset="100%" stop-color="%23ffd700" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="600" cy="700" r="120" fill="url(%23a)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h2 {
+            color: var(--primary-yellow);
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero-content h1 {
+            color: var(--text-light);
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            line-height: 1.2;
+        }
+
+        .hero-content .lead {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .search-form {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .search-form h4 {
+            color: var(--primary-navy);
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .form-control {
+            border: 2px solid rgba(26, 35, 126, 0.1);
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-yellow);
+            box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
+        }
+
+        .btn-search {
+            background: linear-gradient(45deg, var(--primary-navy), var(--light-navy));
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            color: white;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-search:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 35, 126, 0.4);
+        }
+
+        /* Section Styles */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, var(--primary-yellow), var(--secondary-yellow));
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 100px 0;
+            background: var(--bg-light);
+        }
+
+        .about-video {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        .about-video::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(26, 35, 126, 0.1), rgba(255, 215, 0, 0.1));
+        }
+
+        .about-content h3 {
+            color: var(--primary-navy);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .btn-outline-custom {
+            border: 2px solid var(--primary-navy);
+            color: var(--primary-navy);
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-custom:hover {
+            background: var(--primary-navy);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 35, 126, 0.3);
+        }
+
+        /* Destinations Section */
+        .destinations-section {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .destination-card {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .destination-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(26, 35, 126, 0.05), rgba(255, 215, 0, 0.05));
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .destination-card:hover::before {
+            opacity: 1;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .destination-card .card-img-top {
+            height: 250px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .destination-card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-title {
+            color: var(--primary-navy);
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .card-text {
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .btn-destination {
+            background: linear-gradient(45deg, var(--primary-yellow), var(--secondary-yellow));
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            color: var(--primary-navy);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-destination:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+            color: var(--primary-navy);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--secondary-navy) 100%);
+            position: relative;
+        }
+
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffd700" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffd700" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="100" r="80" fill="url(%23a)"/><circle cx="900" cy="200" r="120" fill="url(%23a)"/><circle cx="200" cy="800" r="100" fill="url(%23a)"/></svg>');
+        }
+
+        .contact-section .section-title {
+            color: var(--text-light);
+        }
+
+        .contact-section .section-title::after {
+            background: linear-gradient(45deg, var(--primary-yellow), var(--secondary-yellow));
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-label {
+            color: var(--primary-navy);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-contact {
+            background: linear-gradient(45deg, var(--primary-navy), var(--light-navy));
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-contact:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(26, 35, 126, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-navy);
+            padding: 30px 0;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .footer span {
+            color: var(--primary-yellow);
+            font-weight: 600;
+        }
+
+        /* Animations */
+        .animate-fade-in {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content .lead {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .search-form {
+                margin-top: 40px;
+            }
+
+            .btn-auth {
+                margin: 5px 0;
+                width: 100%;
+            }
+        }
+
+        /* Loading Animation */
+        .destination-card {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .destination-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hover Effects */
+        .destination-card:hover .card-title i {
+            color: var(--primary-yellow);
+            transform: scale(1.2);
+            transition: all 0.3s ease;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, var(--primary-navy), var(--primary-yellow));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, var(--secondary-navy), var(--secondary-yellow));
+        }
+
+        .horizontal-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            cursor: grab;
+            scroll-behavior: smooth;
+            padding-bottom: 8px;
+            /* space for scrollbar */
+        }
+
+        .horizontal-scroll-wrapper:active {
+            cursor: grabbing;
+        }
+
+        .horizontal-scroll-wrapper .photo-item {
+            display: inline-block;
+            width: 500px;
+            /* Fixed width */
+            height: 400px;
+            /* Fixed height */
+            flex: 0 0 auto;
+            margin-right: 1rem;
+        }
+
+        .horizontal-scroll-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Ensures image fills the container nicely */
+            border-radius: 0.5rem;
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+        }
+
+        #Photos {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            margin-bottom: 50px;
+            position: relative;
+        }
+    </style>
+</head>
+<?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
+    <div class="alert alert-success text-center" style="margin-top: 100px;">
+        <i class="fas fa-check-circle me-2"></i>
+        Votre réservation a été envoyée avec succès ! Notre équipe vous contactera bientôt.
+    </div>
+<?php endif; ?>
+<?php if (isset($_GET['success'])): ?>
+    <div class="alert alert-success mt-4 text-center" role="alert">
+        ✅ Votre réservation a été envoyée avec succès !
+    </div>
+<?php elseif (isset($_GET['error'])): ?>
+    <div class="alert alert-danger mt-4 text-center" role="alert">
+        ❌ <?= htmlspecialchars($_GET['error']) ?>
+    </div>
+<?php endif; ?>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">ATLAS<span>ESCAPES</span></a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars text-white"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#a-propos">About </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#destinations">Destinations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Photos">Album</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./login.php">Login</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex flex-wrap">
+                    <a href="reservation.php" class="btn btn-reservation text-white">Book</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="hero-content animate-fade-in">
+                        <h2>Follow Us</h2>
+                        <h1>Travel Safely</h1>
+                        <p class="lead">Discover extraordinary destinations with Atlas Escapes. We offer you unforgettable travel experiences in a safe and professional setting.</p>
+                        <a href="#destinations" class="btn btn-reservation btn-lg">
+                            <i class="fas fa-plane me-2"></i>Book Now !
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section id="destinations" class="destinations-section">
+        <div class="container">
+            <h2 class="section-title">Popular destinations</h2>
+            <div class="row g-4">
+                <!-- Taghazout -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card destination-card h-100">
+                        <img src="https://www.challenge.ma/wp-content/uploads/2025/03/Plage-de-Taghazout-copie.jpg" class="card-img-top" alt="Taghazout">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">
+                                <i class="fas fa-map-marker-alt me-2 text-primary"></i>Taghazout
+                            </h5>
+                            <p class="card-text">Discover this surfing paradise in Morocco with its golden beaches, perfect waves, and uniquely laid-back vibe.</p>
+                            <div class="mt-auto">
+                                <a href="Taghazout.php" class="btn btn-destination">
+                                    <i class="fas fa-plane me-2"></i>See Program
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card destination-card h-100">
+                        <img src="https://www.allibert-trekking.com/iconographie/13/PA1_toubkal.jpeg" class="card-img-top" alt="Miami">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">
+                                <i class="fas fa-map-marker-alt me-2 text-primary"></i>Toubkal
+                            </h5>
+                            <p class="card-text">Grimpez le plus haut sommet d'Afrique du Nord pour une aventure inoubliable dans l'Atlas marocain.</p>
+                            <div class="mt-auto">
+                                <a href="Toubkal.php" class="btn btn-destination">
+                                    <i class="fas fa-plane me-2"></i>See Program
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card destination-card h-100">
+                        <img src="https://quadbikingmarrakech.com/wp-content/uploads/2022/05/Quad-Biking-in-Agafay-Marrakech.jpg" class="card-img-top" alt="Los Angeles">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">
+                                <i class="fas fa-map-marker-alt me-2 text-primary"></i>Marrakech/Agafay Desert
+                            </h5>
+                            <p class="card-text">Morocco's stunning stone desert that offers an otherworldly experience without the long trek to the Sahara.</p>
+                            <div class="mt-auto">
+                                <a href="Marrakech.php" class="btn btn-destination">
+                                    <i class="fas fa-plane me-2"></i>See Program
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card destination-card h-100">
+                        <img src="https://img.freepik.com/premium-photo/camel-caravan-trekking-through-desert_670382-45030.jpg?w=900" class="card-img-top" alt="Rome">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">
+                                <i class="fas fa-map-marker-alt me-2 text-primary"></i>Merzouga
+                            </h5>
+                            <p class="card-text">Merzouga, a captivating village on the edge of the Sahara Desert, offers stunning landscapes, cultural richness, and adventurous activities.</p>
+                            <div class="mt-auto">
+                                <a href="Merzouga.php" class="btn btn-destination">
+                                    <i class="fas fa-plane me-2"></i>See Program
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card destination-card h-100">
+                        <img src="https://dunesdeserts.com/wp-content/uploads/2011/12/stock-photo-204594097.jpg " class="card-img-top" alt="Tokyo">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">
+                                <i class="fas fa-map-marker-alt me-2 text-primary"></i>High Atlas Mountains 4-Summit Expedition ( Timzguida-Ras-Afella-Toubkal )
+                            </h5>
+                            <p class="card-text">Stretching across North Africa, the Atlas Mountains offer stunning landscapes, traditional Berber villages, and unforgettable adventures. <br>It's a perfect escape for nature lovers and cultural explorers alike.</p>
+                            <div class="mt-auto">
+                                <a href="4summits.php" class="btn btn-destination">
+                                    <i class="fas fa-plane me-2"></i>See Program
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="photos-section my-5">
+        <h3 class="mb-4" id="Photos">Album</h3>
+        <div class="horizontal-scroll-wrapper">
+            <div class="photo-item">
+                <img src="./images/1.jpg" alt="Marrakech" />
+            </div>
+            <div class="photo-item">
+                <img src="./images/2.jpg" alt="Agafay Desert" />
+            </div>
+            <div class="photo-item">
+                <img src="./images/3.jpg" alt="Morocco" />
+            </div>
+            <div class="photo-item">
+                <img src="./images/4.jpg" alt="Desert Camp" />
+            </div>
+            <div class="photo-item">
+                <img src="./images/5.jpg" alt="Camel" />
+            </div>
+            <div class="photo-item">
+                <img src="./images/6.jpg" alt="Sahara" />
+            </div>
+            <div class="photo-item">
+                <img src="./images/7.jpg" alt="Sahara" />
+            </div>
+            <div class="photo-item">
+                <img src="./images/8.jpg" alt="Sahara" />
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="a-propos" class="about-section">
+        <div class="container">
+            <h2 class="section-title">About us</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="about-video">
+                        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Voyage" class="w-100 h-100" style="object-fit: cover; min-height: 350px; border-radius: 20px;">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-content">
+                        <h3>We travel to seek other lives, other souls.</h3>
+                        <p>Atlas Escapes is your trusted partner for exceptional journeys. We are committed to offering you authentic and memorable experiences while ensuring your safety and comfort.</p>
+                        <p>Our team of travel experts carefully selects each destination to give you the best of every culture and landscape.</p>
+                        <a href="#contact" class="btn btn-outline-custom">
+                            <i class="fas fa-arrow-right me-2"></i>Learn more
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="contact-form">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Full Name *</label>
+                                        <input type="text" class="form-control" name="nom" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Email *</label>
+                                        <input type="email" class="form-control" name="email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Subject *</label>
+                                        <input type="text" class="form-control" name="sujet" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Phone</label>
+                                        <input type="tel" class="form-control" name="telephone">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Preferred Date</label>
+                                        <input type="date" class="form-control" name="date">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Other Details</label>
+                                        <input type="text" class="form-control" name="details">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Message *</label>
+                                <textarea class="form-control" name="message" rows="5" required></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-contact">
+                                    <i class="fas fa-paper-plane me-2"></i>Send message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white py-4">
+        <div class="container text-center">
+            <p class="mb-2">Follow us on social media</p>
+            <div class="social-icons mb-3">
+                <a href="https://www.facebook.com" target="_blank" class="text-white me-3">
+                    <i class="fab fa-facebook fa-lg"></i>
+                </a>
+                <a href="https://www.instagram.com" target="_blank" class="text-white me-3">
+                    <i class="fab fa-instagram fa-lg"></i>
+                </a>
+                <a href="https://www.twitter.com" target="_blank" class="text-white me-3">
+                    <i class="fab fa-twitter fa-lg"></i>
+                </a>
+                <a href="https://www.youtube.com" target="_blank" class="text-white">
+                    <i class="fab fa-youtube fa-lg"></i>
+                </a>
+            </div>
+            <p class="mb-0">Created by <span class="text-warning">Atlas Escapes Dev</span> | All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="script.js">
+
+
+    </script>
+
+    <style>
+        /* Additional animations and effects */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-effect 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-effect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .focused .form-control {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3) !important;
+        }
+
+        .loaded .hero-content {
+            animation: slideInFromLeft 1s ease-out;
+        }
+
+        .loaded .search-form {
+            animation: slideInFromRight 1s ease-out 0.3s both;
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Mobile enhancements */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding-top: 120px;
+            }
+
+            .destination-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .btn-auth {
+                font-size: 0.9rem;
+                padding: 6px 15px;
+            }
+        }
+    </style>
+    <script>
+        // Cacher automatiquement l’alerte après 5 secondes
+        setTimeout(() => {
+            const alertBox = document.querySelector('.alert');
+            if (alertBox) {
+                alertBox.style.display = 'none';
+            }
+
+            // Supprimer le paramètre ?success=1 de l'URL sans recharger
+            const url = new URL(window.location);
+            url.searchParams.delete('success');
+            window.history.replaceState({}, document.title, url.pathname);
+        }, 5000);
+
+
+        const scrollContainer = document.getElementById('scrollGallery');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        scrollContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            scrollContainer.classList.add('active');
+            startX = e.pageX - scrollContainer.offsetLeft;
+            scrollLeft = scrollContainer.scrollLeft;
+        });
+
+        scrollContainer.addEventListener('mouseleave', () => {
+            isDown = false;
+            scrollContainer.classList.remove('active');
+        });
+
+        scrollContainer.addEventListener('mouseup', () => {
+            isDown = false;
+            scrollContainer.classList.remove('active');
+        });
+
+        scrollContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - scrollContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            scrollContainer.scrollLeft = scrollLeft - walk;
+        });
+    </script>
+</body>
+
+</html>
